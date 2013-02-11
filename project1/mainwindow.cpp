@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "twoD.h"
 #include <QTextStream>
+#include <QFile>
 #include <iostream>
 #include <fstream>
 
