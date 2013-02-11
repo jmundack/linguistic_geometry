@@ -1,5 +1,5 @@
 mkdir -p build
 cd build
-qmake ../Project1/
+qmake ../project1/
 make -j2
 cd -
