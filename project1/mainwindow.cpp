@@ -26,13 +26,13 @@ void MainWindow::on_show_clicked()
     if (ui->show->text() == "Mark Reachability")
     {
         ui->show->setText("Save");
-        ui->tableWidget->setRowCount(ui->xCord->value());
-        ui->tableWidget->setColumnCount(ui->yCord->value());
-        for (size_t i = 0; i < ui->yCord->value(); i++)
+        ui->tableWidget->setRowCount(ui->yCord->value());
+        ui->tableWidget->setColumnCount(ui->xCord->value());
+        for (int i = 0; i < ui->yCord->value(); i++)
            ui->tableWidget->setColumnWidth(i,ui->tableWidget->rowHeight(0));
 
-        for (size_t row = 0; row < ui->xCord->value(); row++)
-            for (size_t col = 0; col < ui->yCord->value(); col++)
+        for (int row = 0; row < ui->xCord->value(); row++)
+            for (int col = 0; col < ui->yCord->value(); col++)
             {
                 QString v;
                 if (ui->xCordCurrent->value()-1 == row && ui->yCordCurrent->value()-1 == col)
@@ -45,8 +45,8 @@ void MainWindow::on_show_clicked()
     {
         vector<pair<int, int> > reachability;
         reachability.push_back(make_pair(ui->xCordCurrent->value()-1, ui->yCordCurrent->value()-1));
-        for (size_t row = 0; row < ui->tableWidget->rowCount(); row++)
-            for (size_t col = 0; col < ui->tableWidget->columnCount(); col++)
+        for (int row = 0; row < ui->tableWidget->rowCount(); row++)
+            for (int col = 0; col < ui->tableWidget->columnCount(); col++)
             {
                 if (ui->tableWidget->item(row,col)->text() == "1")
                 {
@@ -61,7 +61,7 @@ void MainWindow::on_show_clicked()
     }
     else
     {
-    twoD obj (ui->xCord->value(), ui->yCord->value(), ui->xCordCurrent->value(), ui->yCordCurrent->value(), _GenericPieces);
+    twoD obj (ui->yCord->value(), ui->xCord->value(), ui->xCordCurrent->value(), ui->yCordCurrent->value(), _GenericPieces);
 
     QString filename("temp");
     {
@@ -95,11 +95,10 @@ void MainWindow::on_show_clicked()
 
 
     obj.compute_distances(ui->peiceList->currentText().toStdString());
-    obj.display();
 
-    ui->tableWidget->setRowCount(ui->xCord->value());
-    ui->tableWidget->setColumnCount(ui->yCord->value());
-    for (size_t i = 0; i < ui->yCord->value(); i++)
+    ui->tableWidget->setRowCount(ui->yCord->value());
+    ui->tableWidget->setColumnCount(ui->xCord->value());
+    for (int i = 0; i < ui->yCord->value(); i++)
        ui->tableWidget->setColumnWidth(i,ui->tableWidget->rowHeight(0));
 
     const twoD::Array2D &data(obj.GetData());
