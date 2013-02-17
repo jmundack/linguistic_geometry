@@ -16,6 +16,7 @@ public:
           std::map<std::string, std::vector<std::pair<int,int> > > genericPieces);
 	
 	void compute_distances(const std::string& piece);
+	void compute_distances(const std::string& piece, const int x, const int y);
 	
 	void step_one (const std::string&);
 	void check_reach (const std::string& piece, const int x, const int y);
@@ -39,12 +40,11 @@ private:
     Array2D array2D;
 	std::vector<std::pair<int, int> > checked;
 	std::vector<std::pair<int, int> > obstacles;
-   std::pair<int, int>  element;
 	int height, width;
 	int startx, starty;
 	int step;
 	size_t index_checked;
 	int num_obs;
-    std::map<std::string, std::vector<std::pair<int,int> > > genericPieces;
+   std::map<std::string, std::vector<std::pair<int,int> > > genericPieces;
 };
 

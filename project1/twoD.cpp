@@ -33,14 +33,14 @@ void twoD::set_obstacles(const int numobs, vector<pair<int,int> > v)
 {
 	for (size_t i=0; i<v.size(); ++i)
 	{
-        array2D[v[i].first-1][abs(v[i].second-1)]=999;
-
+      array2D[v[i].first-1][abs(v[i].second-1)]=999;
 	}
 
 	num_obs=numobs;
 }
 void twoD::compute_distances(const string& piece)
 {
+   cout << "JJM  - x,y : " << startx << "," << starty << endl;
 	// Start filling out distance 1 from first position
 	step_one (piece);
 	index_checked++;
@@ -57,6 +57,17 @@ void twoD::compute_distances(const string& piece)
 	/*	for (int i=0; i<checked.size(); ++i)
 			cout << "first " << checked[i].first << " second "<< checked[i].second << '\n';
 	*/
+}
+
+void twoD::compute_distances(const string& piece, const int x, const int y)
+{
+   cout << "JJM - x,y passed in : " << x << "," << y << endl;
+   startx = x-1;
+   starty = y-1;
+   compute_distances(piece);
+
+   cout << "from compute_distances : 4,4: " << array2D[4][4] << endl;
+
 }
 	
 void twoD::step_one (const string& piece)
@@ -137,9 +148,7 @@ void twoD::generic_piece (const string &name,const int x, const int y)
 
 void twoD::add_checked(const int x, const int y)
 {
-	element.first=x;
-	element.second=y;
-	checked.push_back(element);
+	checked.push_back(make_pair(x,y));
 }
 
 void twoD::pawn(const int x, const int y)

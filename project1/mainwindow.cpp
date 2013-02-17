@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "twoD.h"
+#include "trajectory.h"
 #include <QTextStream>
 #include <QFile>
 #include <iostream>
@@ -14,6 +15,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->xCord->setValue(8);
+    ui->yCord->setValue(8);
+    ui->xCordCurrent->setValue(5);
+    ui->yCordCurrent->setValue(1);
+    ui->show->click();
 }
 
 MainWindow::~MainWindow()
@@ -94,7 +100,8 @@ void MainWindow::on_show_clicked()
     obj.set_obstacles( obstacles.size(), obstacles);
 
 
-    obj.compute_distances(ui->peiceList->currentText().toStdString());
+    const string piece(ui->peiceList->currentText().toStdString());
+//    obj.compute_distances(ui->peiceList->currentText().toStdString());
 
     ui->tableWidget->setRowCount(ui->yCord->value());
     ui->tableWidget->setColumnCount(ui->xCord->value());
@@ -118,6 +125,8 @@ void MainWindow::on_show_clicked()
             QTableWidgetItem *item = new QTableWidgetItem(val);
             ui->tableWidget->setItem(row,col,item);
         }
+    Trajectory t(piece, obj, 5,8);
+    t.GetShortestTrajectories();
     }
 }
 

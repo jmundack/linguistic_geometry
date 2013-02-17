@@ -13,8 +13,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp\
         twoD.h \
-        twoD.cpp
+        twoD.cpp \
+    trajectory.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    trajectory.h
 
 FORMS    += mainwindow.ui
