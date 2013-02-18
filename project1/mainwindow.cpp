@@ -17,9 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->xCord->setValue(8);
     ui->yCord->setValue(8);
-    ui->xCordCurrent->setValue(5);
-    ui->yCordCurrent->setValue(1);
-    ui->show->click();
+//    ui->xCordCurrent->setValue(7);
+//    ui->yCordCurrent->setValue(3);
+//    ui->show->click();
 }
 
 MainWindow::~MainWindow()
@@ -101,7 +101,6 @@ void MainWindow::on_show_clicked()
 
 
     const string piece(ui->peiceList->currentText().toStdString());
-//    obj.compute_distances(ui->peiceList->currentText().toStdString());
 
     ui->tableWidget->setRowCount(ui->yCord->value());
     ui->tableWidget->setColumnCount(ui->xCord->value());
@@ -114,10 +113,6 @@ void MainWindow::on_show_clicked()
         {
             const size_t num(data.at(row).at(col));
             QString val;
-//            if ((row == ui->yCordCurrent->value()-1) && (col == ui->xCordCurrent->value()-1))
-//                val = "*";
-//            else if (num == 0)
-//                val = QString();
             if (num == 999)
                 val = "X";
             else
@@ -125,8 +120,8 @@ void MainWindow::on_show_clicked()
             QTableWidgetItem *item = new QTableWidgetItem(val);
             ui->tableWidget->setItem(row,col,item);
         }
-    Trajectory t(piece, obj, 5,8);
-    t.GetShortestTrajectories();
+    Trajectory t(piece, obj, ui->xCordEnd->value(),ui->yCordEnd->value());
+    t.GetTrajectories(3);
     }
 }
 

@@ -11,7 +11,7 @@ class twoD
 friend class Table;
 
 public:
-    typedef std::vector<std::vector<double> > Array2D;
+    typedef std::vector<std::vector<int> > Array2D;
     twoD (const int, const int, const int, const int,
           std::map<std::string, std::vector<std::pair<int,int> > > genericPieces);
 	
@@ -34,6 +34,9 @@ public:
 	void display(int);
     std::string GetTable();
     const Array2D &GetData() const { return array2D; }
+
+    std::pair<int,int> GetStratingCordinates() const { return std::make_pair(startx+1,starty+1);}
+    void SetCordinates(const int x, const int y) { startx = x-1; starty = y-1;}
 
 private:
     void _Display(std::ostream &os);
