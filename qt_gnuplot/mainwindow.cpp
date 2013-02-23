@@ -21,7 +21,7 @@ namespace
          out << "echo \"Running gnuplot\"" << endl;
          out << "echo \"set term jpeg\" > profile.gnu" << endl;
          out << "echo \"set out \'$1\'\" >> profile.gnu" << endl;
-         out << "echo \"splot \'$2\' with lines title \'move1\'\" >> profile.gnu" << endl;
+         out << "echo \"plot \'$2\' with lines title \'move1\'\" >> profile.gnu" << endl;
          out << "gnuplot < profile.gnu" << endl;
          out << "echo \"Done running gnuplot\"" << endl;
       }
