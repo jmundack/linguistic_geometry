@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "twoD.h"
 #include "trajectory.h"
+#include "plot.h"
 #include <QTextStream>
 #include <QFile>
 #include <iostream>
@@ -17,9 +18,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->xCord->setValue(8);
     ui->yCord->setValue(8);
-//    ui->xCordCurrent->setValue(7);
-//    ui->yCordCurrent->setValue(3);
-//    ui->show->click();
+#if 0
+    ui->xCordCurrent->setValue(7);
+    ui->yCordCurrent->setValue(3);
+    ui->xCordEnd->setValue(5);
+    ui->yCordEnd->setValue(2);
+#endif
+
 }
 
 MainWindow::~MainWindow()
@@ -67,61 +72,76 @@ void MainWindow::on_show_clicked()
     }
     else
     {
-    twoD obj (ui->yCord->value(), ui->xCord->value(), ui->xCordCurrent->value(), ui->yCordCurrent->value(), _GenericPieces);
+       twoD obj (ui->yCord->value(), ui->xCord->value(), ui->xCordCurrent->value(), ui->yCordCurrent->value(), _GenericPieces);
 
-    QString filename("temp");
-    {
-        QFile file(filename);
-        cout << ui->obstacleList->toPlainText().toStdString();
+       QString filename("obstacles");
+       {
+          QFile file(filename);
+          cout << ui->obstacleList->toPlainText().toStdString();
 
-        if ( file.open(QFile::WriteOnly) ) {
-            cout << "file opened for writing" << endl;
-            QTextStream outStream(&file);
-            outStream << ui->obstacleList->toPlainText();
-        }
-    }
-    vector<pair<int,int> > obstacles;
-    {
-        ifstream file(filename);
-        cout << "file opened for reading" << endl;
-        while(file.good() && !file.eof())
-        {
-            int x,y;
-            file >> x;
-            if (file.good())
-            {
+          if ( file.open(QFile::WriteOnly) ) {
+             cout << "file opened for writing" << endl;
+             QTextStream outStream(&file);
+             outStream << ui->obstacleList->toPlainText();
+          }
+       }
+       vector<pair<int,int> > obstacles;
+       {
+          ifstream file(filename);
+          cout << "file opened for reading" << endl;
+          while(file.good() && !file.eof())
+          {
+             int x,y;
+             file >> x;
+             if (file.good())
+             {
                 file >> y;
                 obstacles.push_back(make_pair(x,y));
                 cout << "Added obstacle at " << x << "," << y << endl;
-            }
-        }
-    }
+             }
+          }
+       }
 
-    obj.set_obstacles( obstacles.size(), obstacles);
+       obj.set_obstacles( obstacles.size(), obstacles);
 
 
-    const string piece(ui->peiceList->currentText().toStdString());
+       const string piece(ui->peiceList->currentText().toStdString());
 
-    ui->tableWidget->setRowCount(ui->yCord->value());
-    ui->tableWidget->setColumnCount(ui->xCord->value());
-    for (int i = 0; i < ui->yCord->value(); i++)
-       ui->tableWidget->setColumnWidth(i,ui->tableWidget->rowHeight(0));
+       ui->tableWidget->setRowCount(ui->yCord->value());
+       ui->tableWidget->setColumnCount(ui->xCord->value());
+       for (int i = 0; i < ui->yCord->value(); i++)
+          ui->tableWidget->setColumnWidth(i,ui->tableWidget->rowHeight(0));
 
-    const twoD::Array2D &data(obj.GetData());
-    for (size_t row = 0; row < data.size(); row++)
-        for (size_t col = 0; col < data.at(row).size(); col++)
-        {
-            const size_t num(data.at(row).at(col));
-            QString val;
-            if (num == 999)
+       const twoD::Array2D &data(obj.GetData());
+       for (size_t row = 0; row < data.size(); row++)
+          for (size_t col = 0; col < data.at(row).size(); col++)
+          {
+             const size_t num(data.at(row).at(col));
+             QString val;
+             if (num == 999)
                 val = "X";
-            else
+             else
                 val = QString::number(num);
-            QTableWidgetItem *item = new QTableWidgetItem(val);
-            ui->tableWidget->setItem(row,col,item);
-        }
-    Trajectory t(piece, obj, ui->xCordEnd->value(),ui->yCordEnd->value());
-    t.GetTrajectories(3);
+             QTableWidgetItem *item = new QTableWidgetItem(val);
+             ui->tableWidget->setItem(row,col,item);
+          }
+       ui->tableWidget->hide();
+       cout << "Generating Trajectories" << endl;
+       cout.flush();
+       Cordinate maxValues(make_pair(ui->xCord->value(), ui->yCord->value()));
+       Cordinate start(make_pair(ui->xCordCurrent->value(), ui->yCordCurrent->value()));
+       Cordinate end(make_pair(ui->xCordEnd->value(), ui->yCordEnd->value()));
+       Trajectory t(piece, obj, ui->xCordEnd->value(),ui->yCordEnd->value());
+       Plot p1(t.GetTrajectories(), maxValues, start, end, obstacles, "shortest_path.jpeg");
+       for (int i = t.GetShortestPathDistance()+1; i < t.GetLongestPossiblePathDistance(); i++)
+       {
+          Paths paths(t.GetTrajectories(i));
+          if (!paths.empty())
+          {
+             Plot p(paths, maxValues, start, end, obstacles, "trajectories_degree_2.jpeg");
+             break;
+          }
+       }
     }
 }
 

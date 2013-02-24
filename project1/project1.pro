@@ -14,9 +14,11 @@ SOURCES += main.cpp\
         mainwindow.cpp\
         twoD.h \
         twoD.cpp \
-    trajectory.cpp
+    trajectory.cpp \
+    plot.cpp
 
 HEADERS  += mainwindow.h \
-    trajectory.h
+    trajectory.h \
+    plot.h
 
 FORMS    += mainwindow.ui

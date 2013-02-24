@@ -14,6 +14,8 @@ public:
 
     Paths GetTrajectories();
     Paths GetTrajectories(const int length);
+    int GetShortestPathDistance() const { return _ShortestDistance; }
+    int GetLongestPossiblePathDistance() const { return _LongestDistance; }
 
 private:
     // private funcions
