@@ -6,7 +6,7 @@
 
 QT       += core gui qt3support
 
-TARGET = project1
+TARGET = project
 TEMPLATE = app
 
 
