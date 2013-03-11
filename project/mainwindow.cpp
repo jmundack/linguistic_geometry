@@ -3,6 +3,7 @@
 #include "twoD.h"
 #include "trajectory.h"
 #include "plot.h"
+#include "grammarofzones.h"
 #include <QTextStream>
 #include <QFile>
 #include <iostream>
@@ -18,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->xCord->setValue(8);
     ui->yCord->setValue(8);
-#if 0
+#if 1
     ui->xCordCurrent->setValue(7);
     ui->yCordCurrent->setValue(3);
     ui->xCordEnd->setValue(5);
@@ -127,21 +128,37 @@ void MainWindow::on_show_clicked()
           }
        ui->tableWidget->hide();
        cout << "Generating Trajectories" << endl;
+       /*
        cout.flush();
        Cordinate maxValues(make_pair(ui->xCord->value(), ui->yCord->value()));
        Cordinate start(make_pair(ui->xCordCurrent->value(), ui->yCordCurrent->value()));
        Cordinate end(make_pair(ui->xCordEnd->value(), ui->yCordEnd->value()));
        Trajectory t(piece, obj, ui->xCordEnd->value(),ui->yCordEnd->value());
-       Plot p1(t.GetTrajectories(), maxValues, start, end, obstacles, "shortest_path.jpeg");
-       for (int i = t.GetShortestPathDistance()+1; i < t.GetLongestPossiblePathDistance(); i++)
+//       Plot p1(t.GetTrajectories(), maxValues, start, end, obstacles, "shortest_path.jpeg");
+       for (size_t i = t.GetShortestPathDistance()+1; i < t.GetLongestPossiblePathDistance(); i++)
        {
           Paths paths(t.GetTrajectories(i));
           if (!paths.empty())
           {
-             Plot p(paths, maxValues, start, end, obstacles, "trajectories_degree_2.jpeg");
+//             Plot p(paths, maxValues, start, end, obstacles, "trajectories_degree_2.jpeg");
              break;
           }
-       }
+       }*/
+       cout << "*** generating zone: " << endl;
+       U u(40, 8, 4);
+       vector<char> pieces(64,' ');
+       pieces.at(40) = 'k';
+       pieces.at(8) = 'K';
+       pieces.at(46) = 'K';
+       pieces.at(23) = 'X';
+       pieces.at(31) = 'X';
+       GrammarOfZones gz(u,pieces,8);
+       vector<string> zones = gz.GetZone();
+       cout << "Zones : " ;
+       for (size_t i = 0; i < zones.size(); i++)
+          cout << zones.at(i);
+       cout << endl;
+       cout << "*** DONE generating zone: " << endl;
     }
 }
 

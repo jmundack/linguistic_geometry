@@ -15,10 +15,12 @@ SOURCES += main.cpp\
         twoD.h \
         twoD.cpp \
     trajectory.cpp \
-    plot.cpp
+    plot.cpp \
+    grammarofzones.cpp
 
 HEADERS  += mainwindow.h \
     trajectory.h \
-    plot.h
+    plot.h \
+    grammarofzones.h
 
 FORMS    += mainwindow.ui

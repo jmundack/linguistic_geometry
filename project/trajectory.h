@@ -12,12 +12,18 @@ public:
                const int endingX,
                const int endingY);
 
+    Trajectory(const char piece,
+               const twoD &initialBoard,
+               const int endingX,
+               const int endingY);
+
     Paths GetTrajectories();
     Paths GetTrajectories(const int length);
-    int GetShortestPathDistance() const { return _ShortestDistance; }
-    int GetLongestPossiblePathDistance() const { return _LongestDistance; }
+    size_t GetShortestPathDistance() const { return _ShortestDistance; }
+    size_t GetLongestPossiblePathDistance() const { return _LongestDistance; }
 
 private:
+    void _Init();
     // private funcions
     void _ComputeSum();
     std::vector<Cordinates> _Next(const Cordinates currentPos, const int length);

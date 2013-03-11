@@ -6,6 +6,31 @@
 
 using namespace std;
 
+namespace
+{
+   string _ConvertToPiece(const char c)
+   {
+      string piece;
+      switch(c)
+      {
+         case 'R':
+         case 'r': piece="Rook"; break;
+         case 'K':
+         case 'k': piece="King"; break;
+         case 'B':
+         case 'b': piece = "Bishop"; break;
+         case 'Q':
+         case 'q': piece = "Queen"; break;
+         case 'N':
+         case 'n': piece ="Knight"; break;
+         case 'P':
+         case 'p': piece = "Pawn"; break;
+         default: cerr << "Generic piece!!" << endl; break;
+      }
+      return piece;
+   }
+}
+
 Trajectory::Trajectory(const string &piece,
                        const twoD &initialBoard,
                        const int endingX,
@@ -18,6 +43,29 @@ Trajectory::Trajectory(const string &piece,
 
    cout << "************ DONE computing for begBoard ****************" << endl;
    _ComputeSum();
+
+   _Init();
+}
+
+Trajectory::Trajectory(const char piece,
+                       const twoD &initialBoard,
+                       const int endingX,
+                       const int endingY):_Piece(_ConvertToPiece(piece)),_InitialBoard(initialBoard),_EndingX(endingX),_EndingY(endingY),_ShortestDistance(INT_MAX),_LongestDistance(-1)
+{
+   cout << "************ computing for begBoard ****************" << endl;
+   twoD begBoard(_InitialBoard);
+   begBoard.compute_distances(_Piece); 
+   _BegData = begBoard.GetData();
+
+   cout << "************ DONE computing for begBoard ****************" << endl;
+   _ComputeSum();
+
+   _Init();
+}
+
+
+void Trajectory::_Init()
+{
 }
 
 Paths Trajectory::GetTrajectories()
