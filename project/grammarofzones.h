@@ -29,6 +29,8 @@ private:
     void _Q5();
     void _F();
     void _Alpha(const int k);
+    void _PrintOneD(std::vector<size_t> &oneD);
+    bool _IsPathValid(const std::string &path);
     const U _UInitial;
     U _U;
     std::vector<size_t> _V;

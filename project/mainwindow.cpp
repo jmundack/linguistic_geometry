@@ -145,18 +145,18 @@ void MainWindow::on_show_clicked()
           }
        }*/
        cout << "*** generating zone: " << endl;
-       U u(40, 8, 4);
+       U u(39, 7, 4);
        vector<char> pieces(64,' ');
-       pieces.at(40) = 'k';
-       pieces.at(8) = 'K';
-       pieces.at(46) = 'K';
-       pieces.at(23) = 'X';
-       pieces.at(31) = 'X';
+       pieces.at(39) = 'k';
+       pieces.at(7) = 'K';
+       pieces.at(45) = 'K';
+       pieces.at(22) = 'X';
+       pieces.at(30) = 'X';
        GrammarOfZones gz(u,pieces,8);
        vector<string> zones = gz.GetZone();
        cout << "Zones : " ;
        for (size_t i = 0; i < zones.size(); i++)
-          cout << zones.at(i);
+          cout << zones.at(i) << "-->";
        cout << endl;
        cout << "*** DONE generating zone: " << endl;
     }

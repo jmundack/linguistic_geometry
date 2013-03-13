@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui qt3support
+QMAKE_CXXFLAGS += -g
 
 TARGET = project
 TEMPLATE = app

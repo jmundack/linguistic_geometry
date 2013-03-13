@@ -36,7 +36,7 @@ Trajectory::Trajectory(const string &piece,
                        const int endingX,
                        const int endingY):_Piece(piece),_InitialBoard(initialBoard),_EndingX(endingX),_EndingY(endingY),_ShortestDistance(INT_MAX),_LongestDistance(-1)
 {
-   cout << "************ computing for begBoard ****************" << endl;
+   cout << "************ computing for begBoard for " << _Piece << " ****************" << endl;
    twoD begBoard(_InitialBoard);
    begBoard.compute_distances(_Piece); 
    _BegData = begBoard.GetData();
