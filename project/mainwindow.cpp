@@ -25,6 +25,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->xCordEnd->setValue(5);
     ui->yCordEnd->setValue(2);
 #endif
+    ui->xCordCurrent->hide();
+    ui->yCordCurrent->hide();
+    ui->xCordEnd->hide();
+    ui->yCordEnd->hide();
+    ui->peiceList->hide();
 
 }
 
@@ -35,6 +40,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_show_clicked()
 {
+    vector<pair<int,int> > obstacles;
     if (ui->show->text() == "Mark Reachability")
     {
         ui->show->setText("Save");
@@ -75,32 +81,33 @@ void MainWindow::on_show_clicked()
     {
        twoD obj (ui->yCord->value(), ui->xCord->value(), ui->xCordCurrent->value(), ui->yCordCurrent->value(), _GenericPieces);
 
-       QString filename("obstacles");
        {
-          QFile file(filename);
-          cout << ui->obstacleList->toPlainText().toStdString();
+           QString filename("obstacles");
+           {
+               QFile file(filename);
+               cout << ui->obstacleList->toPlainText().toStdString();
 
-          if ( file.open(QFile::WriteOnly) ) {
-             cout << "file opened for writing" << endl;
-             QTextStream outStream(&file);
-             outStream << ui->obstacleList->toPlainText();
-          }
-       }
-       vector<pair<int,int> > obstacles;
-       {
-          ifstream file(filename);
-          cout << "file opened for reading" << endl;
-          while(file.good() && !file.eof())
-          {
-             int x,y;
-             file >> x;
-             if (file.good())
-             {
-                file >> y;
-                obstacles.push_back(make_pair(x,y));
-                cout << "Added obstacle at " << x << "," << y << endl;
-             }
-          }
+               if ( file.open(QFile::WriteOnly) ) {
+                   cout << "file opened for writing" << endl;
+                   QTextStream outStream(&file);
+                   outStream << ui->obstacleList->toPlainText();
+               }
+           }
+           {
+               ifstream file(filename);
+               cout << "file opened for reading" << endl;
+               while(file.good() && !file.eof())
+               {
+                   int x,y;
+                   file >> x;
+                   if (file.good())
+                   {
+                       file >> y;
+                       obstacles.push_back(make_pair(x,y));
+                       cout << "Added obstacle at " << x << "," << y << endl;
+                   }
+               }
+           }
        }
 
        obj.set_obstacles( obstacles.size(), obstacles);
@@ -128,31 +135,53 @@ void MainWindow::on_show_clicked()
           }
        ui->tableWidget->hide();
        cout << "Generating Trajectories" << endl;
-       /*
-       cout.flush();
-       Cordinate maxValues(make_pair(ui->xCord->value(), ui->yCord->value()));
-       Cordinate start(make_pair(ui->xCordCurrent->value(), ui->yCordCurrent->value()));
-       Cordinate end(make_pair(ui->xCordEnd->value(), ui->yCordEnd->value()));
-       Trajectory t(piece, obj, ui->xCordEnd->value(),ui->yCordEnd->value());
-//       Plot p1(t.GetTrajectories(), maxValues, start, end, obstacles, "shortest_path.jpeg");
-       for (size_t i = t.GetShortestPathDistance()+1; i < t.GetLongestPossiblePathDistance(); i++)
-       {
-          Paths paths(t.GetTrajectories(i));
-          if (!paths.empty())
-          {
-//             Plot p(paths, maxValues, start, end, obstacles, "trajectories_degree_2.jpeg");
-             break;
-          }
-       }*/
        cout << "*** generating zone: " << endl;
-       U u(39, 7, 4);
-       vector<char> pieces(64,' ');
-       pieces.at(39) = 'k';
-       pieces.at(7) = 'K';
-       pieces.at(45) = 'K';
-       pieces.at(22) = 'X';
-       pieces.at(30) = 'X';
-       GrammarOfZones gz(u,pieces,8);
+       vector<char> pieces(ui->xCord->value() * ui->yCord->value(),' ');
+       U u(0,0,0);
+
+       {
+           QString filename("piece_list");
+           {
+               QFile file(filename);
+               cout << ui->listOfPieces->toPlainText().toStdString();
+
+               if ( file.open(QFile::WriteOnly) ) {
+                   cout << "file opened for writing" << endl;
+                   QTextStream outStream(&file);
+                   outStream << ui->listOfPieces->toPlainText();
+               }
+           }
+           {
+               ifstream file(filename);
+               cout << "file opened for reading" << endl;
+               int counter(0);
+               while(file.good() && !file.eof())
+               {
+                   int x,y;
+                   char c;
+                   file >> c;
+                   if (!file.good()) break;
+                   file >> x;
+                   if (!file.good()) break;
+                   file >> y;
+                   int val = (y-1) * ui->xCord->value() + (x -1);
+                   pieces.at(val) = c;
+                   counter ++;
+                   cout << "Added piece " << c << "at " << val << endl;
+                   if (counter == 1)
+                      u.x = val;
+                   else if (counter == 2)
+                      u.y = val;
+               }
+           }
+       }
+
+       for (size_t i = 0; i < obstacles.size(); i++)
+       {
+           int val = (obstacles.at(i).second -1) * ui->xCord->value() + (obstacles.at(i).first -1);
+           pieces.at(val) = 'X';
+       }
+       GrammarOfZones gz(u,pieces,ui->xCord->value(), obstacles);
        vector<string> zones = gz.GetZone();
        cout << "Zones : " ;
        for (size_t i = 0; i < zones.size(); i++)
@@ -172,3 +201,4 @@ void MainWindow::on_peiceList_currentIndexChanged(const QString &arg1)
     else
         ui->show->setText("Show");
 }
+

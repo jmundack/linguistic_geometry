@@ -22,6 +22,7 @@ public:
 	void check_reach (const std::string& piece, const int x, const int y);
 	void add_checked (const int x, const int y);
 	void set_obstacles(const int numobs, std::vector<std::pair<int,int> > v);
+	void set_obstacles(std::vector<std::pair<int,int> > v) { set_obstacles(v.size(), v); }
     void generic_piece (const std::string &name, const int x, const int y);
 
 	void rook(const int, const int);

@@ -4,7 +4,7 @@
 #include <utility>
 #include <vector>
 
-typedef std::list<std::string> Paths;
+typedef std::vector<std::string> Paths;
 typedef std::pair<int,int> Cordinate;
 class Plot
 {

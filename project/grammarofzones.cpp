@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include <boost/lexical_cast.hpp>
+#include "plot.h"
 
 using namespace std;
 
@@ -48,26 +50,32 @@ vector<size_t> GrammarOfZones::_ConvertToOneDimension(const string &currentPath)
       while (in.good() && !in.eof())
       {
          int row(0), col(0);
-         in >> row;
+         in >> col;
          if (in.eof()) 
             break;
-         in >> col;
+         in >> row;
          row--;
          col--;
          oneD.push_back(row*_NumRows + col);
       }
    }
-   oneD.erase(oneD.begin());
-   cout << "currentPath : " << currentPath << endl;
-   cout << "oneD : " ;
+//   oneD.erase(oneD.begin());
+   cout << "converting currentPath : " << currentPath << endl;
+   cout << "convetred to oneD : " ;
    for (size_t i = 0; i < oneD.size(); i++)
       cout << oneD.at(i) << " ";
    cout << endl;
    return oneD;
 }
 
-GrammarOfZones::GrammarOfZones(const U &u, std::vector<char> &pieces,const int numRows):_UInitial(u),_U(u),_Pieces(pieces),_NumRows(numRows)
+GrammarOfZones::GrammarOfZones(const U &u, std::vector<char> &pieces,const int numRows, vector<pair<int,int> > obstacles):
+   _UInitial(u),_U(u),_Pieces(pieces),_NumRows(numRows),_Obstacles(obstacles)
 {
+   cout << "Pieces for grammer of zones : " << endl;
+   for (size_t i = 0 ; i < _Pieces.size(); i++)
+   {
+      cout << i << "\t : " << _Pieces.at(i) << endl;
+   }
 }
 
 vector<string> GrammarOfZones::GetZone()
@@ -100,14 +108,15 @@ bool GrammarOfZones::_Q1(const U &u)
       return q1;
    twoD board(_NumRows,
               _Pieces.size() / _NumRows,
-              (u.x) / _NumRows +1,
               (u.x) % _NumRows +1,
+              (u.x) / _NumRows +1,
               _DummyGenericPieces);
+   board.set_obstacles(_Obstacles);
 
    Trajectory t(_Pieces.at(u.x),
                 board,
-                (u.y) / _NumRows +1, 
-                (u.y) % _NumRows+1);
+                (u.y) % _NumRows+1,
+                (u.y) / _NumRows +1);
    // check for trajectory length to u.length if needed
 
    // make sure the pices are opposing
@@ -131,8 +140,8 @@ void GrammarOfZones::_A2()
    vector<size_t> oneD(_ConvertToOneDimension(_Trajectories.back()));
    for (size_t i = 0; i < oneD.size(); i++)
    {
-      _V.at(oneD.at(i)) = 1;
-      _Time.at(oneD.at(i)) = i+2;
+      _V.at(oneD.at(i)) = (i!=0);
+      _Time.at(oneD.at(i)) = i+1;
    }
    _Q3();
    cout << "<--- " << __FUNCTION__ << endl;
@@ -214,22 +223,25 @@ void GrammarOfZones::_Q4()
          cout << "_U.x : " << _U.x << " _U.y: " << _U.y << endl;
          twoD board(_NumRows,
                     _Pieces.size() / _NumRows,
-                    _U.x / _NumRows +1,
                     _U.x % _NumRows +1,
+                    _U.x / _NumRows +1,
                     _DummyGenericPieces);
+   board.set_obstacles(_Obstacles);
 
          cout << "going to create trajectory" << endl;
          Trajectory t(_Pieces.at(_U.x),
                       board,
-                      _U.y / _NumRows +1, 
-                      _U.y % _NumRows +1);
+                      _U.y % _NumRows +1, 
+                      _U.y / _NumRows +1);
          cout << "created trajectory _U.x : " << _U.x << " _U.y: " << _U.y  << " length : " << _U.length
             << " of shorted length: " << t.GetShortestPathDistance() << endl;
-
-         if (!_IsDifferent(_Pieces.at(_U.x), _Pieces.at(_UInitial.x)))
-            q4 = (t.GetShortestPathDistance() == 1);
-         else
-            q4 = (t.GetShortestPathDistance() <= _U.length);
+         if (t.GetShortestPathDistance() != 0)
+         {
+            if (!_IsDifferent(_Pieces.at(_U.x), _Pieces.at(_UInitial.x)))
+               q4 = (t.GetShortestPathDistance() == 1);
+            else
+               q4 = (t.GetShortestPathDistance() <= _U.length);
+         }
       }
    }
    if (q4)
@@ -243,14 +255,15 @@ void GrammarOfZones::_A4()
    cout << "---> " << __FUNCTION__ << endl;
    twoD board(_NumRows,
               _Pieces.size() / _NumRows,
-              _U.x / _NumRows +1,
               _U.x % _NumRows+1,
+              _U.x / _NumRows +1,
               _DummyGenericPieces);
 
+   board.set_obstacles(_Obstacles);
    Trajectory t(_Pieces.at(_U.x),
                 board,
-                _U.y / _NumRows+1, 
-                _U.y % _NumRows+1);
+                _U.y % _NumRows+1, 
+                _U.y / _NumRows+1);
 
 
    Paths trajectories(t.GetTrajectories());
@@ -337,14 +350,25 @@ void GrammarOfZones::_A5()
 void GrammarOfZones::_A6()
 {
    cout << "Done!!" << endl;
+
+//  for (size_t i = 0; i < _Trajectories.size(); i++)
+  {
+     vector<size_t> oneD(_ConvertToOneDimension(_Trajectories.at(0)));
+     pair<int, int> start(make_pair(_UInitial.x%_NumRows + 1, _UInitial.x/_NumRows +1));
+     pair<int, int> end(make_pair(oneD.back()/_NumRows + 1, oneD.back()%_NumRows +1));
+     string outputFilename = "trajectorie_" + boost::lexical_cast<string>(0) + ".jpeg";
+      Plot p(_Trajectories, make_pair(_NumRows, _Pieces.size()/_NumRows), start, end, _Obstacles, outputFilename);
+  }
 }
 
 bool GrammarOfZones::_IsPathValid(const string &path)
 {
    vector<size_t> pathOneD(_ConvertToOneDimension(path));
-   size_t numIntersections(0);
+   bool isEmbedded(false);
    for (size_t i = 0; i < _Trajectories.size(); i++)
    {
+      if (isEmbedded) break;
+      size_t numIntersections(0);
       vector<size_t> trajectoryOneD(_ConvertToOneDimension(_Trajectories.at(i)));
       for (size_t j = 0; j < pathOneD.size(); j++)
       {
@@ -354,6 +378,7 @@ bool GrammarOfZones::_IsPathValid(const string &path)
                numIntersections++;
          }
       }
+      isEmbedded = (numIntersections > 1);
    }
-   return (numIntersections == 1);
+   return !isEmbedded;
 }

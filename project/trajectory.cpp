@@ -36,7 +36,7 @@ Trajectory::Trajectory(const string &piece,
                        const int endingX,
                        const int endingY):_Piece(piece),_InitialBoard(initialBoard),_EndingX(endingX),_EndingY(endingY),_ShortestDistance(INT_MAX),_LongestDistance(-1)
 {
-   cout << "************ computing for begBoard for " << _Piece << " ****************" << endl;
+   cout << "************ computing for begBoard for " << _Piece << " to : " << endingX << "," << endingY << ") ****************" << endl;
    twoD begBoard(_InitialBoard);
    begBoard.compute_distances(_Piece); 
    _BegData = begBoard.GetData();
@@ -52,7 +52,7 @@ Trajectory::Trajectory(const char piece,
                        const int endingX,
                        const int endingY):_Piece(_ConvertToPiece(piece)),_InitialBoard(initialBoard),_EndingX(endingX),_EndingY(endingY),_ShortestDistance(INT_MAX),_LongestDistance(-1)
 {
-   cout << "************ computing for begBoard ****************" << endl;
+   cout << "************ computing for begBoard for " << _Piece << " to : " << endingX << "," << endingY << ") ****************" << endl;
    twoD begBoard(_InitialBoard);
    begBoard.compute_distances(_Piece); 
    _BegData = begBoard.GetData();
@@ -150,6 +150,9 @@ void Trajectory::_ComputeSum()
       for (size_t j = 0; j < _BegData.at(i).size(); j++)
       {
          _Sum.at(i).at(j) = _BegData.at(i).at(j) + finalData.at(i).at(j);
+         if(_Sum.at(i).at(j) == 0) 
+            if ((i != _EndingX -1) || (j != _EndingY -1))
+               continue;
          _ShortestDistance = min(_ShortestDistance, _Sum.at(i).at(j));
          _LongestDistance = max(_LongestDistance, _Sum.at(i).at(j));
       }

@@ -13,7 +13,7 @@ struct U
 class GrammarOfZones
 {
 public:
-    GrammarOfZones(const U &u, std::vector<char> &pieces, const int numRows);
+    GrammarOfZones(const U &u, std::vector<char> &pieces, const int numRows, std::vector<std::pair<int,int> > obstacles);
     std::vector<std::string> GetZone();
 private:
     void _A2();
@@ -38,6 +38,7 @@ private:
     std::vector<size_t> _Time;
     std::vector<size_t> _NextTime;
     std::vector<char> _Pieces;
+    std::vector<std::pair<int, int> > _Obstacles;
     const int _NumRows;
     std::vector<std::string> _Trajectories;
 };

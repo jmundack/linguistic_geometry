@@ -3,7 +3,7 @@
 #include <list>
 
    typedef std::pair<int,int> Cordinates;
-   typedef std::list<std::string> Paths;
+   typedef std::vector<std::string> Paths;
 class Trajectory
 {
 public:

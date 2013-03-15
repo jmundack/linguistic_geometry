@@ -40,8 +40,8 @@ Plot::Plot(const Paths &paths,
    profile << "set xrange[0.5:" << float(maxValues.first) +0.5 << "]" << endl;
    profile << "set yrange[0.5:" << float(maxValues.second) +0.5 << "]" << endl;
    profile << "set grid" << endl;
-   profile << "set object circle at " << start.first << "," << start.second << " size 0.2 fillcolor rgbcolor \'red\' fill solid" << endl;
-   profile << "set object circle at " << end.first << "," << end.second << " size 0.2 fillcolor rgbcolor \'red\' fill solid" << endl;
+//   profile << "set object circle at " << start.first << "," << start.second << " size 0.2 fillcolor rgbcolor \'red\' fill solid" << endl;
+//   profile << "set object circle at " << end.first << "," << end.second << " size 0.2 fillcolor rgbcolor \'red\' fill solid" << endl;
    for (size_t i = 0; i < obstacles.size(); i++)
    {
        const pair<int,int> &ob(obstacles.at(i));

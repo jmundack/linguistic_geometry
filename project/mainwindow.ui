@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>887</width>
-    <height>705</height>
+    <height>822</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,24 +17,24 @@
    <widget class="QPlainTextEdit" name="obstacleList">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>30</x>
       <y>320</y>
-      <width>211</width>
-      <height>231</height>
+      <width>221</width>
+      <height>121</height>
      </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>290</y>
-      <width>66</width>
-      <height>17</height>
+      <x>30</x>
+      <y>270</y>
+      <width>251</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Obstacles</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Obstacles &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;enter x y cordinates - space separated&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QSpinBox" name="xCord">
@@ -51,16 +51,6 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>20</y>
-      <width>60</width>
-      <height>27</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="zCord">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
       <y>20</y>
       <width>60</width>
       <height>27</height>
@@ -151,19 +141,6 @@
      <string>Y</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>0</y>
-      <width>66</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Z</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
@@ -190,19 +167,6 @@
      <string>X</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>140</y>
-      <width>66</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Z</string>
-    </property>
-   </widget>
    <widget class="QSpinBox" name="yCordCurrent">
     <property name="geometry">
      <rect>
@@ -217,16 +181,6 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>160</y>
-      <width>60</width>
-      <height>27</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="zCordCurrent">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
       <y>160</y>
       <width>60</width>
       <height>27</height>
@@ -252,7 +206,7 @@
       <x>280</x>
       <y>20</y>
       <width>571</width>
-      <height>511</height>
+      <height>421</height>
      </rect>
     </property>
    </widget>
@@ -282,16 +236,6 @@
      <string>Peice Final Location</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="zCordEnd">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>240</y>
-      <width>60</width>
-      <height>27</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QSpinBox" name="yCordEnd">
     <property name="geometry">
      <rect>
@@ -300,19 +244,6 @@
       <width>60</width>
       <height>27</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_11">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>220</y>
-      <width>66</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Z</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_12">
@@ -336,6 +267,29 @@
       <width>60</width>
       <height>27</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="listOfPieces">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>520</y>
+      <width>221</width>
+      <height>251</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>460</y>
+      <width>661</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;List of Pieces - piece character (K,Q,B,R,N,P) folowed by x,y cordinates (each space separated). &lt;/p&gt;&lt;p&gt;Use upper case characters for white and lower case for black&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>
