@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <boost/lexical_cast.hpp>
 #include "plot.h"
+#include "latexgenerator.h"
 
 using namespace std;
 
@@ -358,6 +359,7 @@ void GrammarOfZones::_A6()
      pair<int, int> end(make_pair(oneD.back()/_NumRows + 1, oneD.back()%_NumRows +1));
      string outputFilename = "trajectorie_" + boost::lexical_cast<string>(0) + ".jpeg";
       Plot p(_Trajectories, make_pair(_NumRows, _Pieces.size()/_NumRows), start, end, _Obstacles, outputFilename);
+      LatexGenerator lg(_Trajectories, make_pair(_NumRows, _Pieces.size()/_NumRows), _Pieces, _Obstacles, "lg.tex");
   }
 }
 

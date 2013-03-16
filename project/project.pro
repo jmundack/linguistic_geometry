@@ -17,11 +17,13 @@ SOURCES += main.cpp\
         twoD.cpp \
     trajectory.cpp \
     plot.cpp \
+    latexgenerator.cpp \
     grammarofzones.cpp
 
 HEADERS  += mainwindow.h \
     trajectory.h \
     plot.h \
+    latexgenerator.h \
     grammarofzones.h
 
 FORMS    += mainwindow.ui
