@@ -38,7 +38,7 @@ private:
     std::vector<size_t> _Time;
     std::vector<size_t> _NextTime;
     std::vector<char> _Pieces;
+    const size_t _NumRows;
     std::vector<std::pair<int, int> > _Obstacles;
-    const int _NumRows;
     std::vector<std::string> _Trajectories;
 };

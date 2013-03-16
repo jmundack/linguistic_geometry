@@ -13,6 +13,7 @@ Plot::Plot(const Paths &paths,
            const std::vector<Cordinate> &obstacles,
            const string &outputFilename)
 {
+   cout << "Plotting start : " << start.first << "," << start.second << " to end : " << end.first << "," << end.second << endl;
     system("mkdir -p temp");
    int offset(0);
    for (Paths::const_iterator itr = paths.begin(); itr != paths.end(); ++itr)

@@ -33,9 +33,7 @@ private:
            Paths &paths,
            const std::string currentPath);
 
-    std::vector<Cordinates> _Med(const Cordinates start,
-                                 const Cordinates end,
-                                 const int length);
+    std::vector<Cordinates> _Med(const Cordinates start);
 
     int _Lmed(const Cordinates start,
               const Cordinates end);
@@ -43,8 +41,8 @@ private:
     // Data
     const std::string _Piece;
     twoD _InitialBoard;
-    const int _EndingX;
-    const int _EndingY;
+    const size_t _EndingX;
+    const size_t _EndingY;
     twoD::Array2D _BegData;
     twoD::Array2D _Sum;
     int _ShortestDistance;

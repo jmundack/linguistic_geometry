@@ -87,9 +87,7 @@ Paths Trajectory::GetTrajectories(const int length)
    {
       const Cordinates startingCordinates(_InitialBoard.GetStratingCordinates());
       const Cordinates endingCordinates(make_pair(_EndingX,_EndingY));
-      vector<Cordinates> meds(_Med(startingCordinates,
-                                   endingCordinates,
-                                   length));
+      vector<Cordinates> meds(_Med(startingCordinates));
       for (size_t k = 0; k < meds.size(); k++)
       {
          cout << "***** Creating Trajectory one*****" << endl;
@@ -229,12 +227,9 @@ void Trajectory::A(const Cordinates start,
    }
 }
 
-vector<Cordinates> Trajectory::_Med(const Cordinates start,
-                                    const Cordinates end,
-                                    const int length)
+vector<Cordinates> Trajectory::_Med(const Cordinates start)
 {
-
-  vector<Cordinates> nextCordinates;
+   vector<Cordinates> nextCordinates;
    twoD currentBoard(_InitialBoard);
    currentBoard.compute_distances(_Piece, start.first, start.second);
    twoD::Array2D currentData(currentBoard.GetData());
