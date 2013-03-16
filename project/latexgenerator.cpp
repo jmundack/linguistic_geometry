@@ -51,23 +51,64 @@ LatexGenerator::LatexGenerator(const Paths &paths,
    out << "}";
    if (!paths.empty())
    {
+      system("mkdir -p lg_temp");
+      int offset(0);
+      cout << "Generating temp files" << endl;
+      for (Paths::const_iterator itr = paths.begin(); itr != paths.end(); ++itr)
+      {
+         stringstream ss;
+         ss << "./lg_temp/" << offset;
+         ofstream out(ss.str().c_str());
+
+         const string &currentPath(*itr);
+         for (size_t j = 0; j < currentPath.size(); j++)
+         {
+            if (isdigit(currentPath.at(j)))
+               out << currentPath.at(j);
+            else if (currentPath.at(j) == ',')
+               out << ' ';
+            else if (currentPath.at(j) == ')')
+               out << endl;
+         }
+         out.close();
+         offset++;
+      }
+      cout << "DONE Generating temp files" << endl;
+
       out << ",pgfstyle={straightmove},";
       out << "markmoves={";
-      string p1,p2;
+      cout << "Generating moves" << endl;
       for (size_t i = 0; i < paths.size(); i++)
       {
-         if (p1.empty())
+         cout << "Generating move " << i << endl;
+         stringstream ss;
+         ss << "./lg_temp/" << i;
+         ifstream in(ss.str().c_str());
+         int a1(0), a2(0);
+         int b1(0), b2(0);
+         bool isFirst(true);
+         while (!in.eof())
          {
-            // read p1
+            if (isFirst)
+            {
+               in >> a1;
+               in >> a2;
+            }
+            in >> b1;
+            in >> b2;
+            if (in.eof()) break;
+            if(!isFirst)
+            {
+               out << ',';
+            }
+            out << _Alphabets.at(a1-1) << a2 << "-" << _Alphabets.at(b1-1) << b2;
+            a1 = b1;
+            a2 = b2;
+            isFirst = false;
          }
-         else
-         {
-            out << ',';
-         }
-         // read p2
-         out << p1 << "-" << p2;
-         p1 = p2;
+         cout << "DONE Generating move " << i << endl;
       }
+      cout << "DONE Generating moves" << endl;
       //  f2-g3,g3-e5
       out << "}, arrow=to, linewidth=0.1em" << endl;
    }
