@@ -49,6 +49,16 @@ LatexGenerator::LatexGenerator(const Paths &paths,
       numPieces++;
    }
    out << "}";
+   if (!obstacles.empty())
+   {
+      out << ",pgfstyle={text},text=X,markfields={";
+      for (size_t i = 0; i < obstacles.size(); i++)
+      {
+         if (i!=0) out << ',';
+         out << _Alphabets.at(obstacles.at(i).first-1) << obstacles.at(i).second;
+      }
+      out << "}";
+   }
    if (!paths.empty())
    {
       system("mkdir -p lg_temp");
@@ -78,6 +88,7 @@ LatexGenerator::LatexGenerator(const Paths &paths,
       out << ",pgfstyle={straightmove},";
       out << "markmoves={";
       cout << "Generating moves" << endl;
+      bool isFirst(true);
       for (size_t i = 0; i < paths.size(); i++)
       {
          cout << "Generating move " << i << endl;
@@ -86,10 +97,10 @@ LatexGenerator::LatexGenerator(const Paths &paths,
          ifstream in(ss.str().c_str());
          int a1(0), a2(0);
          int b1(0), b2(0);
-         bool isFirst(true);
+         bool isNewFile(true);
          while (!in.eof())
          {
-            if (isFirst)
+            if (isNewFile)
             {
                in >> a1;
                in >> a2;
@@ -105,11 +116,11 @@ LatexGenerator::LatexGenerator(const Paths &paths,
             a1 = b1;
             a2 = b2;
             isFirst = false;
+            isNewFile = false;
          }
          cout << "DONE Generating move " << i << endl;
       }
       cout << "DONE Generating moves" << endl;
-      //  f2-g3,g3-e5
       out << "}, arrow=to, linewidth=0.1em" << endl;
    }
    out << "]" << endl;
