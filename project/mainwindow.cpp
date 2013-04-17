@@ -8,6 +8,7 @@
 #include <QFile>
 #include <iostream>
 #include <fstream>
+#include "searches.h"
 
 using namespace std;
 
@@ -30,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->xCordEnd->hide();
     ui->yCordEnd->hide();
     ui->peiceList->hide();
+
+    Searches s;
+    s.Start();
+
 
 }
 

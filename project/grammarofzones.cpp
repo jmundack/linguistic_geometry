@@ -128,7 +128,8 @@ bool GrammarOfZones::_Q1(const U &u)
    if (q1)
    {
 //       _Trajectories.push_back(*(t.GetTrajectories().begin()));
-       _Trajectories.push_back(*(t.GetTrajectories().rbegin()));
+//       _Trajectories.push_back(*(t.GetTrajectories().rbegin()));
+      _Trajectories.push_back(t.GetTrajectories().at(1));
    }
    cout << "<--- " << __FUNCTION__ << endl;
    return q1;

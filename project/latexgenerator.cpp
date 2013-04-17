@@ -126,5 +126,6 @@ LatexGenerator::LatexGenerator(const Paths &paths,
    out << "]" << endl;
 
    out << "\\end{document}" << endl;
+   out.close();
 }
 

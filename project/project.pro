@@ -18,12 +18,14 @@ SOURCES += main.cpp\
     trajectory.cpp \
     plot.cpp \
     latexgenerator.cpp \
-    grammarofzones.cpp
+    grammarofzones.cpp \
+    searches.cpp
 
 HEADERS  += mainwindow.h \
     trajectory.h \
     plot.h \
     latexgenerator.h \
-    grammarofzones.h
+    grammarofzones.h \
+    searches.h
 
 FORMS    += mainwindow.ui
